@@ -1,0 +1,984 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1e88e5" />
+    <link rel="stylesheet" href="css/style.css" data-type="page"/>
+    <link rel="shortcut icon" href="img/logo.png" type="image/png" sizes="32x32">
+    <link rel="shortcut icon" href="img/logo.png" type="image/png" sizes="16x16">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+    <script src="https://unpkg.com/nouislider@10.0.0/distribute/nouislider.min.js"></script>
+    <script src="https://unpkg.com/wnumb@1.1.0"></script>
+    <link rel="stylesheet" href="https://unpkg.com/nouislider@10.0.0/distribute/nouislider.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <title>Flightigo</title>
+   <script>
+        //ajax request to get data for flight search -------------------------------------
+        $.ajax({
+            url: "http://localhost/flightigo/api/web/v1/cities?expand=airports,country,hotels",
+            dataType: "text",
+            method: 'GET',
+            success: function(result) {
+                var items = $.parseJSON(result);
+                for (var i=0; i<items.items.length; i++){
+                    for(var j=0; j<items.items[i].airports.length; j++){
+                        $('#flight_origin_ajax').append('<a class="list" href="#"> <i class="fas fa-map-marker-alt" style="color: #0d5798"></i> ' + items.items[i].title + ' - ' + items.items[i].country_title + ' <i class="fab fa-avianex" style="color: #0d5798"></i> ' + items.items[i].airports[j].title + '</a>' + '\n' );
+                        $('#flight_destin_ajax').append('<a class="list" href="#"> <i class="fas fa-map-marker-alt" style="color: #0d5798"></i> ' + items.items[i].title + ' - ' + items.items[i].country_title + ' <i class="fab fa-avianex" style="color: #0d5798"></i> ' + items.items[i].airports[j].title + '</a>' + '\n' );
+                    }
+                }
+            }
+        });
+
+        //ajax request to get data for hotel search -------------------------------------
+        $.ajax({
+            url: "http://localhost/flightigo/api/web/v1/cities?expand=airports,country,hotels",
+            dataType: "text",
+            method: 'GET',
+            success: function(result) {
+                var items = $.parseJSON(result);
+                for (var i=0; i<items.items.length; i++){
+                    for(var j=0; j<items.items[i].hotels.length; j++) {
+                        $('#hotel_destin_ajax').append('<a class="list" href="#"> <i class="fas fa-map-marker-alt" style="color: #0d5798"></i> ' + items.items[i].title + ' - ' + items.items[i].country_title + ' <i class="fas fa-building" style="color: #0d5798"></i> ' + items.items[i].hotels[j].title + '</a>' + '\n');
+                    }
+                }
+            }
+        });
+    </script>
+</head>
+
+<div class="keel-chp en_US">
+    <div id="mobile-header" class="Common-Frontdoor-Brands-flightigo-flightigoHeader main_head">
+        <div class="keel-container">
+            <div class="keel-grid cfHeaderGrid">
+                <div class="col-logo logoContainer">
+                    <a href="http://flightigo.com" class="logo"><img src="img/logo.png" alt="logo" height="35px" style="float: left" /></a>
+                </div>
+                <div class="col-hamburger" id="header-menu-button" tabindex="0">
+                    <div class="hamburger hamburger-squeeze">
+                        <div class="hamburger-box">
+                            <div class="hamburger-inner"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- mobile nav menu -->
+    <div id="mobile-menu">
+        <div id="mobile-menu-header">
+            <button id="menu-close" type="button"><i class="fas fa-times" style="float: right"></i></button>
+            <a href="http://flightigo.com" style="float: left"><img src="img/logo.png" alt="logo" height="40px" style="margin-top: -9px;margin-left: -32px;" /></a>
+        </div>
+        <div id="mobile-menu-body">
+            <a href="">منوی موبایل</a>
+        </div>
+    </div>
+    <!-- mobile nav menu -->
+
+
+
+    <div class="wrap">
+        
+<!-- The warning modal 1 -->
+<div id="people-num-modal" class="modal">
+
+    <!--warning Modal 1 content -->
+    <div class="modal-content">
+        <div class="modal-header">
+            <span id="people-num-modal-close" class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p>تعداد افراد کمتر از صفر قابل قبول نیست!</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- The warning modal 2 -->
+<div id="max-room-modal" class="modal">
+
+    <!--warning Modal 2 content -->
+    <div class="modal-content">
+        <div class="modal-header">
+            <span id="max-room-modal-close" class="close">&times;</span>
+        </div>
+        <div class="modal-body">
+            <p>درخواست رزرو اتاق بیش از تعداد ۵ عدد مجاز نمیباشد!</p>
+        </div>
+    </div>
+
+</div>
+
+<!-- The multi way flight ticket modal -->
+<div id="multi-way-modal" class="modal">
+    <!--The multi way flight ticket modal content -->
+    <div class="modal-content" id="multi-way-modal-content">
+        <div class="modal-header" style="background-color: #1e88e5">
+            <span id="multi-way-modal-close" class="close">&times;</span>
+        </div>
+        <div class="modal-body" style="padding-bottom: 20px">
+            <form action="/flight-search" method="post">
+                <!--   1st trip -->
+                <button id="add_route_btn" type="button"> + </button>   افزودن مسیر&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                <button id="minus_route_btn" type="button"><i class="fas fa-minus"></i></button> حذف مسیر
+                <br /><br /><br />
+                <div style="width: 100%;height: auto;text-align: center;font-size: large"><p style="color: #1e88e5;font-size: 20px;width: 100%">مسیر اول</p></div>
+                <div class="keel-grid field-grid modal-row" style="line-height: 250%">
+
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 switch">
+                        <div class="fieldBlock airportBlock originBlock">
+                            <div class="inputWrapper">
+                                <div class="formLabel"> <i class="fas fa-map-marker-alt"></i> مبدا </div>
+                                <input type="text" id="flight_origin_input1" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat" aria-hidden="false" name="origin" placeholder="نام شهر یا فرودگاه" aria-label="Flight origin input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                <div class="ajax_input_box" id="flight_origin_ajax1"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 col-airport col-destination">
+                        <div class="fieldBlock airportBlock destinationBlock">
+                            <div class="formLabel"><i class="fas fa-map-marker-alt"></i> مقصد </div>
+                            <input type="text" id="flight_destin_input1" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat aaa" aria-hidden="false" name="destination" placeholder="نام شهر یا فرودگاه" aria-label="Flight destination input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                            <div class="ajax_input_box" id="flight_destin_ajax1"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 switch">
+                        <div class="fieldBlock airportBlock originBlock">
+                            <div class="inputWrapper">
+                                <div class="formLabel">تاریخ</div>
+                                <input type="text" id="pcal5" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat pdate2" aria-hidden="false"  name="date" placeholder="تاریخ" aria-label="Flight origin input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="width: 100%;height: auto;text-align: center;font-size: large"><p style="color: #1e88e5;font-size: 20px;width: 100%">مسیر دوم</p></div>
+                <div class="keel-grid field-grid modal-row" style="line-height: 250%">
+
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 switch">
+                        <div class="fieldBlock airportBlock originBlock">
+                            <div class="inputWrapper">
+                                <div class="formLabel"> <i class="fas fa-map-marker-alt"></i> مبدا </div>
+                                <input type="text" id="flight_origin_input2" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat" aria-hidden="false" name="origin" placeholder="نام شهر یا فرودگاه" aria-label="Flight origin input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                <div class="ajax_input_box" id="flight_origin_ajax2"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 col-airport col-destination">
+                        <div class="fieldBlock airportBlock destinationBlock">
+                            <div class="formLabel"><i class="fas fa-map-marker-alt"></i> مقصد </div>
+                            <input type="text" id="flight_destin_input2" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat aaa" aria-hidden="false" name="destination" placeholder="نام شهر یا فرودگاه" aria-label="Flight destination input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                            <div class="ajax_input_box" id="flight_destin_ajax2"></div>
+                        </div>
+                    </div>
+
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 switch">
+                        <div class="fieldBlock airportBlock originBlock">
+                            <div class="inputWrapper">
+                                <div class="formLabel">تاریخ</div>
+                                <input type="text" id="pcal6" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat pdate2" aria-hidden="false"  name="date" placeholder="تاریخ" aria-label="Flight origin input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div id="route3">
+                    <div style="width: 100%;height: auto;text-align: center;font-size: large"><p style="color: #1e88e5;font-size: 20px;width: 100%">مسیر سوم</p></div>
+                    <div class="keel-grid field-grid modal-row" style="line-height: 250%">
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 switch">
+                            <div class="fieldBlock airportBlock originBlock">
+                                <div class="inputWrapper">
+                                    <div class="formLabel"> <i class="fas fa-map-marker-alt"></i> مبدا </div>
+                                    <input type="text" id="flight_origin_input3" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat" aria-hidden="false" name="origin" placeholder="نام شهر یا فرودگاه" aria-label="Flight origin input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                    <div class="ajax_input_box" id="flight_origin_ajax3"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 col-airport col-destination">
+                            <div class="fieldBlock airportBlock destinationBlock">
+                                <div class="formLabel"><i class="fas fa-map-marker-alt"></i> مقصد </div>
+                                <input type="text" id="flight_destin_input3" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat aaa" aria-hidden="false" name="destination" placeholder="نام شهر یا فرودگاه" aria-label="Flight destination input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                <div class="ajax_input_box" id="flight_destin_ajax3"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 switch">
+                            <div class="fieldBlock airportBlock originBlock">
+                                <div class="inputWrapper">
+                                    <div class="formLabel">تاریخ</div>
+                                    <input type="text" id="pcal7" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat pdate2" aria-hidden="false"  name="date" placeholder="تاریخ" aria-label="Flight origin input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="route4">
+                    <div style="width: 100%;height: auto;text-align: center;font-size: large"><p style="color: #1e88e5;font-size: 20px;width: 100%">مسیر چهارم</p></div>
+                    <div class="keel-grid field-grid modal-row" style="line-height: 250%">
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 switch">
+                            <div class="fieldBlock airportBlock originBlock">
+                                <div class="inputWrapper">
+                                    <div class="formLabel"> <i class="fas fa-map-marker-alt"></i> مبدا </div>
+                                    <input type="text" id="flight_origin_input4" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat" aria-hidden="false" name="origin" placeholder="نام شهر یا فرودگاه" aria-label="Flight origin input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                    <div class="ajax_input_box" id="flight_origin_ajax4"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 col-airport col-destination">
+                            <div class="fieldBlock airportBlock destinationBlock">
+                                <div class="formLabel"><i class="fas fa-map-marker-alt"></i> مقصد </div>
+                                <input type="text" id="flight_destin_input4" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat aaa" aria-hidden="false" name="destination" placeholder="نام شهر یا فرودگاه" aria-label="Flight destination input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                <div class="ajax_input_box" id="flight_destin_ajax4"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 switch">
+                            <div class="fieldBlock airportBlock originBlock">
+                                <div class="inputWrapper">
+                                    <div class="formLabel">تاریخ</div>
+                                    <input type="text" id="pcal8" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat pdate2" aria-hidden="false"  name="date" placeholder="تاریخ" aria-label="Flight origin input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="route5">
+                    <div style="width: 100%;height: auto;text-align: center;font-size: large"><p style="color: #1e88e5;font-size: 20px;width: 100%">مسیر بنجم</p></div>
+                    <div class="keel-grid field-grid modal-row" style="line-height: 250%">
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 switch">
+                            <div class="fieldBlock airportBlock originBlock">
+                                <div class="inputWrapper">
+                                    <div class="formLabel"> <i class="fas fa-map-marker-alt"></i> مبدا </div>
+                                    <input type="text" id="flight_origin_input5" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat" aria-hidden="false" name="origin" placeholder="نام شهر یا فرودگاه" aria-label="Flight origin input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                    <div class="ajax_input_box" id="flight_origin_ajax5"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 col-airport col-destination">
+                            <div class="fieldBlock airportBlock destinationBlock">
+                                <div class="formLabel"><i class="fas fa-map-marker-alt"></i> مقصد </div>
+                                <input type="text" id="flight_destin_input5" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat aaa" aria-hidden="false" name="destination" placeholder="نام شهر یا فرودگاه" aria-label="Flight destination input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                <div class="ajax_input_box" id="flight_destin_ajax5"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 switch">
+                            <div class="fieldBlock airportBlock originBlock">
+                                <div class="inputWrapper">
+                                    <div class="formLabel">تاریخ</div>
+                                    <input type="text" id="pcal9" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat pdate2" aria-hidden="false"  name="date" placeholder="تاریخ" aria-label="Flight origin input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="route6">
+                    <div style="width: 100%;height: auto;text-align: center;font-size: large"><p style="color: #1e88e5;font-size: 20px;width: 100%">مسیر ششم</p></div>
+                    <div class="keel-grid field-grid modal-row" style="line-height: 250%">
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 switch">
+                            <div class="fieldBlock airportBlock originBlock">
+                                <div class="inputWrapper">
+                                    <div class="formLabel"> <i class="fas fa-map-marker-alt"></i> مبدا </div>
+                                    <input type="text" id="flight_origin_input6" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat" aria-hidden="false" name="origin" placeholder="نام شهر یا فرودگاه" aria-label="Flight origin input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                    <div class="ajax_input_box" id="flight_origin_ajax6"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 col-airport col-destination">
+                            <div class="fieldBlock airportBlock destinationBlock">
+                                <div class="formLabel"><i class="fas fa-map-marker-alt"></i> مقصد </div>
+                                <input type="text" id="flight_destin_input6" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat aaa" aria-hidden="false" name="destination" placeholder="نام شهر یا فرودگاه" aria-label="Flight destination input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                <div class="ajax_input_box" id="flight_destin_ajax6"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 switch">
+                            <div class="fieldBlock airportBlock originBlock">
+                                <div class="inputWrapper">
+                                    <div class="formLabel">تاریخ</div>
+                                    <input type="text" id="pcal10" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat pdate2" aria-hidden="false"  name="date" placeholder="تاریخ" aria-label="Flight origin input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="route7">
+                    <div style="width: 100%;height: auto;text-align: center;font-size: large"><p style="color: #1e88e5;font-size: 20px;width: 100%">مسیر هفتم</p></div>
+                    <div class="keel-grid field-grid modal-row" style="line-height: 250%">
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 switch">
+                            <div class="fieldBlock airportBlock originBlock">
+                                <div class="inputWrapper">
+                                    <div class="formLabel"> <i class="fas fa-map-marker-alt"></i> مبدا </div>
+                                    <input type="text" id="flight_origin_input7" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat" aria-hidden="false" name="origin" placeholder="نام شهر یا فرودگاه" aria-label="Flight origin input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                    <div class="ajax_input_box" id="flight_origin_ajax7"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 col-airport col-destination">
+                            <div class="fieldBlock airportBlock destinationBlock">
+                                <div class="formLabel"><i class="fas fa-map-marker-alt"></i> مقصد </div>
+                                <input type="text" id="flight_destin_input7" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat aaa" aria-hidden="false" name="destination" placeholder="نام شهر یا فرودگاه" aria-label="Flight destination input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                <div class="ajax_input_box" id="flight_destin_ajax7"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 switch">
+                            <div class="fieldBlock airportBlock originBlock">
+                                <div class="inputWrapper">
+                                    <div class="formLabel">تاریخ</div>
+                                    <input type="text" id="pcal11" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat pdate2" aria-hidden="false"  name="date" placeholder="تاریخ" aria-label="Flight origin input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="route8">
+                    <div style="width: 100%;height: auto;text-align: center;font-size: large"><p style="color: #1e88e5;font-size: 20px;width: 100%">مسیر هشتم</p></div>
+                    <div class="keel-grid field-grid modal-row" style="line-height: 250%">
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 switch">
+                            <div class="fieldBlock airportBlock originBlock">
+                                <div class="inputWrapper">
+                                    <div class="formLabel"> <i class="fas fa-map-marker-alt"></i> مبدا </div>
+                                    <input type="text" id="flight_origin_input8" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat" aria-hidden="false" name="origin" placeholder="نام شهر یا فرودگاه" aria-label="Flight origin input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                    <div class="ajax_input_box" id="flight_origin_ajax8"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 col-airport col-destination">
+                            <div class="fieldBlock airportBlock destinationBlock">
+                                <div class="formLabel"><i class="fas fa-map-marker-alt"></i> مقصد </div>
+                                <input type="text" id="flight_destin_input8" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat aaa" aria-hidden="false" name="destination" placeholder="نام شهر یا فرودگاه" aria-label="Flight destination input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                <div class="ajax_input_box" id="flight_destin_ajax8"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 switch">
+                            <div class="fieldBlock airportBlock originBlock">
+                                <div class="inputWrapper">
+                                    <div class="formLabel">تاریخ</div>
+                                    <input type="text" id="pcal12" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat pdate2" aria-hidden="false"  name="date" placeholder="تاریخ" aria-label="Flight origin input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="route9">
+                    <div style="width: 100%;height: auto;text-align: center;font-size: large"><p style="color: #1e88e5;font-size: 20px;width: 100%">مسیر نهم</p></div>
+                    <div class="keel-grid field-grid modal-row" style="line-height: 250%">
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 switch">
+                            <div class="fieldBlock airportBlock originBlock">
+                                <div class="inputWrapper">
+                                    <div class="formLabel"> <i class="fas fa-map-marker-alt"></i> مبدا </div>
+                                    <input type="text" id="flight_origin_input9" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat" aria-hidden="false" name="origin" placeholder="نام شهر یا فرودگاه" aria-label="Flight origin input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                    <div class="ajax_input_box" id="flight_origin_ajax9"></div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 col-airport col-destination">
+                            <div class="fieldBlock airportBlock destinationBlock">
+                                <div class="formLabel"><i class="fas fa-map-marker-alt"></i> مقصد </div>
+                                <input type="text" id="flight_destin_input9" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat aaa" aria-hidden="false" name="destination" placeholder="نام شهر یا فرودگاه" aria-label="Flight destination input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                <div class="ajax_input_box" id="flight_destin_ajax9"></div>
+                            </div>
+                        </div>
+
+                        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 switch">
+                            <div class="fieldBlock airportBlock originBlock">
+                                <div class="inputWrapper">
+                                    <div class="formLabel">تاریخ</div>
+                                    <input type="text" id="pcal13" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat pdate2" aria-hidden="false"  name="date" placeholder="تاریخ" aria-label="Flight origin input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <button id="add_route_btn2" type="button"> + </button>   افزودن مسیر&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;
+                <button id="minus_route_btn2" type="button"><i class="fas fa-minus"></i></button> حذف مسیر
+                <br /><br />
+                <a href="flight_result.html"><p style="text-align: center"><button id="multi-way-search-btn" class="Common-Widgets-Button-Button size-m searchButton" type="button">جستجوی بلیط</button></p></a>
+            </form>
+        </div>
+    </div>
+
+</div>
+
+
+
+<div id="Z9AV" class="Base-Search-SearchPage Omni-OmniSearchPage Omni-OmniChallengerSearchPage Omni-Brands-flightigo-OmniChallengerSearchPage omni-fixed-nav-links vm-fd">
+    <div id="KpMU" class="Common-Layout-StandardBody">
+        <!-- ticket search box -->
+        <div id="KpMU-pageContent" class="pageContent">
+            <div id="QQt1" class="Base-Frontdoor-FrontDoorContent Common-Frontdoor-CommonFrontDoorContent">
+                <div class="coverPhotoContainer ">
+                    <div id="OR17" class="Common-Frontdoor-CoverPhoto challenger-cover-photo ">
+                        <div id="OR17-backgroundWrapper">
+                            <div class="coverPhotoBackground" >
+                                <div class="blur"></div>
+                            </div>
+                        </div>
+
+                        <div class="keel-grid headerContainerGrid flightigoHeader us-header-class fixed-nav-links" style="">
+                            <div class="col headerbar" id="header">
+                                <div id="Cx7X" class="Common-Frontdoor-Brands-flightigo-flightigoHeader main_head">
+                                    <div class="container">
+                                        <div id="language_box">
+                                            <button type="button" class="language" id="language">Persian <i class="fas fa-chevron-down"></i></button>
+                                            <div id="language_select" class="w3-animate-zoom">
+                                                <a href=""> English <i class="fas fa-language"></i></a>
+                                                <a href=""> Arabic <i class="fas fa-language"></i></a>
+                                                <a href=""> Persian <i class="fas fa-language"></i></a>
+                                            </div>
+
+                                        </div>
+                                        <a href="login.html"><p class="header_link"> <i class="fas fa-user-circle"></i> ورود </p></a>
+                                        <a href="signup.html"><p class="header_link"> <i class="fas fa-user-circle"></i> ثبت نام </p></a>
+                                        <a href="#" class="header_link"> <i class="fas fa-shopping-cart"></i> سبد خرید </a>
+                                        <a href="http://flightigo.com" class="logo"><img src="img/logo.png" alt="logo" height="60px" style="float: left;margin-left: 60px;margin-top: 13px" /></a>
+                                    </div>
+                                </div>
+                                <div class="keel-container layer-header headerContainer ">
+                                    <header id="CY9G" class="Common-Layout-Brands-flightigo-Header vm-not seo">
+                                        <div class="keel-grid headerGrid">
+                                            <div class="col-verticals">
+                                                <nav>
+                                                    <div id="TyLJ" class="Common-Layout-Brands-flightigo-FixedNavLinks without-flex keel-grid verticalsGrid">
+                                                        <div class="col-hidden nav-link-container first">
+                                                            <a class="nav-link " href="http://flightigo.com" aria-label="صفحه اصلی"><i class="fas fa-home"></i> صفحه اصلی</a>
+                                                        </div>
+                                                        <div class="col-hidden nav-link-container first">
+                                                            <a class="nav-link" href="http://flightigo.com/blog" aria-label="وبلاگ"><i class="fas fa-book"></i> وبلاگ </a>
+                                                        </div>
+                                                        <div class="col-hidden nav-link-container first">
+                                                            <a class="nav-link" href="contact.html" aria-label="تماس باما"><i class="fas fa-phone"></i> تماس باما </a>
+                                                        </div>
+                                                    </div>
+                                                </nav>
+                                            </div>
+                                        </div>
+                                    </header>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="OR17-backgroundOverlay" class="coverPhoto overlay noOverlay">
+                            <div class="coverPhotoInner">
+                                <div class="coverPhotoContentWrapper keel-container s-t-bp">
+                                    <div class="primary">
+                                        <div id="Z9AV-container" class="flightsVisible">
+                                            <div class="valueProps">
+                                                <h1 class="valueProp flightsValueProp packagesValueProp hotelsValueProp carsValueProp">رزرو آنلاین بلیط پرواز و هتل</h1>
+                                            </div>
+                                            <div id="Z9AV-links" class="keel-grid linkGrid">
+                                                <div class="col-flights-s ">
+                                                    <button type="button" class="formLink flightsLink activated" id="flight-nav" data-form="flights">بلیط پرواز</button>
+                                                </div>
+                                                <div class="col-hotel-s col-finished">
+                                                    <button type="button" class="formLink flightsLink" id="hotel-nav" data-form="hotel" style="border-radius: 0px">بلیط هتل</button>
+                                                </div>
+                                            </div>
+                                            <div id="Z9AV-formContainer" class="formContainer">
+                                                <div id="Z9AV-flights" class="searchForm flightsForm clearfix" aria-hidden="false">
+                                                    <div id="c1J-u" class="Base-Search-SearchForm Flights-Search-FlightSearchFormDeprecated PhoenixFDSearchForm size-xs size-s size-m size-l Flights-Search-FlightSearchForm">
+                                                        <div class="searchFormWrapper ">
+                                                            <div class="keel-grid formGrid ">
+                                                                <div class="col col-5-9-l col-m formContainer">
+                                                                    <!--search box elements-->
+                                                                    <div id="flightbox" class="rtow">
+                                                                        <form action="/flight-search" method="post" class="searchform rtow clearfix active roundtrip" name="rtow-searchform"  aria-hidden="false">
+                                                                            <div class="keel-grid keel-form search-form-grid search-form-grid-flights">
+                                                                                <div class="col">
+                                                                                    <div class="col gridCellDisplayCat">
+                                                                                        <div class="displayCatBlock radioButton">
+                                                                                        <span id="c1J-u-displayCat" class="Common-Widgets-Radio-RadioButtonSet size-l Button-none">
+                                                                                            <span id="trip-radio" role="radiogroup" tabindex="0" aria-label="Choose a search type">
+                                                                                                <input id="two-way-radio" type="radio" name="tripkind" value="two-way" checked="checked"> رفت و برگشت &nbsp;&nbsp;
+                                                                                                <input id="one-way-radio" type="radio" name="tripkind" value="one-way"> رفت&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                                                <input id="multi-way-radio" type="radio" name="tripkind" value="multi-way">   چند مسیری
+                                                                                            </span>
+
+                                                                                        </span>
+                                                                                        </div>
+                                                                                    </div><br />
+                                                                                    <div class="keel-grid field-grid">
+                                                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 switch">
+                                                                                            <div class="fieldBlock airportBlock originBlock">
+                                                                                                <div class="inputWrapper">
+                                                                                                    <div class="formLabel"> <i class="fas fa-map-marker-alt"></i> مبدا  </div>
+                                                                                                    <input type="text" id="flight_origin_input" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat" aria-hidden="false" name="origin" value="" placeholder="نام شهر یا فرودگاه" aria-label="Flight origin input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                                                                                    <div class="ajax_input_box" id="flight_origin_ajax"></div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+                                                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 col-airport col-destination">
+                                                                                            <div class="fieldBlock airportBlock destinationBlock">
+                                                                                                <div class="formLabel"><i class="fas fa-map-marker-alt"></i> مقصد</div>
+                                                                                                <input type="text" id="flight_destin_input" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat aaa" aria-hidden="false" name="destination" placeholder="نام شهر یا فرودگاه" aria-label="Flight destination input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                                                                                <div class="ajax_input_box" id="flight_destin_ajax"></div>
+                                                                                            </div>
+                                                                                        </div>
+
+
+
+                                                                                        <div class="fieldBlock dateBlock col-field col-date single-date-picker">
+                                                                                            <div class="Common-Widgets-Datepicker-DateRangeInput
+                                                                                    mode-range size-m input-flat responsive
+                                                                                    " data-date-group="YX3v-group">
+                                                                                                <div class="keel-grid dateRangeGrid">
+                                                                                                    <div class="col-start">
+                                                                                                        <div data-date-group="YX3v-group" aria-hidden="false" class="Common-Widgets-Datepicker-DateInput size-m input-flat Inline responsive">
+                                                                                                            <input id="pcal1" class="search-input input-flat Common-Widgets-Text-TextInput size-m selectTextOnFocus pdate" type="text" name="departure" placeholder="تاریخ رفت" />
+                                                                                                            <input type="hidden" name="extra" id="extra1">
+
+                                                                                                        </div>
+                                                                                                    </div>
+
+                                                                                                    <div class="col-end">
+                                                                                                        <div class="endInput">
+                                                                                                            <div data-date-group="YX3v-group" aria-hidden="false" class="Common-Widgets-Datepicker-DateInput size-m input-flat Inline responsive" id="return-box">
+                                                                                                                <input id="pcal2" class="search-input input-flat Common-Widgets-Text-TextInput size-m selectTextOnFocus pdate" type="text" name="departure" placeholder="تاریخ برگشت" />
+
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+
+
+                                                                                </div>
+
+                                                                                <div class="col-12 button-col">
+                                                                                    <div class="fieldBlock buttonBlock">
+                                                                                        <a href="flight_result.html">
+                                                                                        <button id="flight_search_btn" type="button" class="Common-Widgets-Button-ButtonDeprecated Common-Widgets-Button-Button size-m searchButton" type="submit" aria-hidden="false" aria-disabled="false">
+                                                                                            <span class="">جستجو</span>
+                                                                                        </button></a>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+
+                                                                        </form>
+                                                                    </div>
+                                                                    <!--search box elements-->
+
+
+
+
+                                                                    <!--search box elements-->
+                                                                    <div id="hotelbox" class="rtow">
+                                                                        <form action="hotel-search" method="post" class="searchform rtow clearfix roundtrip" name="rtow-searchform" id="c1J-u-RTOWsearchform" aria-hidden="false">
+                                                                            <div class="keel-grid keel-form search-form-grid search-form-grid-flights">
+                                                                                <div class="col">
+                                                                                    <div class="keel-grid field-grid">
+                                                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 switch">
+                                                                                            <div class="fieldBlock airportBlock originBlock">
+                                                                                                <div class="inputWrapper">
+                                                                                                    <div class="formLabel"><i class="fas fa-map-marker-alt"></i> نام شهر</div>
+                                                                                                    <input id="hotel_destin_input" type="text" class="Common-Widgets-Text-TextInput size-m selectTextOnFocus input-flat" aria-hidden="false"  name="city" placeholder="نام شهر مقصد" aria-label="Flight origin input" smarty="true" autocomplete="off" autocapitalize="off" autocorrect="off" role="combobox" aria-autocomplete="list">
+                                                                                                    <div class="ajax_input_box" id="hotel_destin_ajax"></div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                        <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12 col-xs-12 col-12 switch">
+                                                                                            <div class="fieldBlock airportBlock originBlock">
+                                                                                                <div class="inputWrapper">
+                                                                                                    <div class="formLabel"><i class="fas fa-home"></i> تعداد اتاق  </div>
+                                                                                                    <div id="room-selector" class="Common-Widgets-Text-TextInput">
+                                                                                                        <select name="num-of-rooms" id="room_num_select">
+                                                                                                            <option value="1">۱</option>
+                                                                                                            <option value="2">۲</option>
+                                                                                                            <option value="3">۳</option>
+                                                                                                            <option value="4">۴</option>
+                                                                                                            <option value="5">۵</option>
+                                                                                                        </select>
+
+                                                                                                    </div>
+
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+
+
+
+                                                                                        <div class="fieldBlock dateBlock col-field col-date single-date-picker">
+                                                                                            <div id="YX3v" class="Common-Widgets-Datepicker-DateRangeInput
+                                                                                    mode-range size-m input-flat responsive
+                                                                                    " data-date-group="YX3v-group">
+                                                                                                <div class="keel-grid dateRangeGrid">
+                                                                                                    <div id="YX3v-start" class="col-start">
+                                                                                                        <div id="c1J-u-depart" data-date-group="YX3v-group" aria-hidden="false" class="Common-Widgets-Datepicker-DateInput size-m input-flat Inline responsive">
+                                                                                                            <input id="pcal3" class="search-input input-flat Common-Widgets-Text-TextInput size-m selectTextOnFocus pdate" type="text" name="from" placeholder="تاریخ شروع" />
+                                                                                                            <input type="hidden" name="extra" id="extra2">
+
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                    <div class="col-separator">
+                                                                                                        <div id="YX3v-separator" style="display: none !important;">–</div>
+                                                                                                    </div>
+                                                                                                    <div id="YX3v-end" class="col-end">
+                                                                                                        <div class="endInput">
+                                                                                                            <div id="c1J-u-return" data-date-group="YX3v-group" aria-hidden="false" class="Common-Widgets-Datepicker-DateInput size-m input-flat Inline responsive">
+                                                                                                                <input id="pcal4" class="search-input input-flat Common-Widgets-Text-TextInput size-m selectTextOnFocus pdate" type="text" name="departure" placeholder="تاریخ پایان" />
+                                                                                                                <input type="hidden" name="extra" id="extra">
+
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                            <button id="add_room_box_btn" type="button"> + </button> <p class="btn_caption">افزودن اتاق</p>
+                                                                            <button id="minus_room_box_btn" type="button"><i class="fas fa-minus"></i></button> <p class="btn_caption" style="float: left;right:-1px">کم کردن اتاق</p>
+                                                                            <br /><br />
+                                                                            <div id="total_rooms_box">
+                                                                                <div class="room_property" id="room1">
+                                                                                    <p>اتاق اول</p>
+                                                                                    <div class="adult_select">
+                                                                                        <p>بزرگسال</p>
+                                                                                        <span class="num_selector">
+                                                                                                <button type="button" class="btnn" id="adult_add1"><i class="fas fa-plus"></i></button>
+                                                                                                <p id="adult_status1">1</p>
+                                                                                                <button type="button" class="btnn2" id="adult_minus1"><i class="fas fa-minus"></i></button>
+                                                                                            </span>
+                                                                                    </div>
+                                                                                    <div class="adult_select">
+                                                                                        <p>کودک</p>
+                                                                                        <span class="num_selector">
+                                                                                                <button type="button" class="btnn" id="child_add1"><i class="fas fa-plus"></i></button>
+                                                                                                <p id="child_status1">1</p>
+                                                                                                <button type="button" class="btnn2" id="child_minus1"><i class="fas fa-minus" style="left: 10px !important;"></i></button>
+                                                                                            </span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="room_property" id="room2">
+                                                                                    <p>اتاق دوم</p>
+                                                                                    <div class="adult_select">
+                                                                                        <p>بزرگسال</p>
+                                                                                        <span class="num_selector">
+                                                                                                <button type="button" class="btnn" id="adult_add2"><i class="fas fa-plus"></i></button>
+                                                                                                <p id="adult_status2">1</p>
+                                                                                                <button type="button" class="btnn2" id="adult_minus2"><i class="fas fa-minus"></i></button>
+                                                                                            </span>
+                                                                                    </div>
+                                                                                    <div class="adult_select">
+                                                                                        <p>کودک</p>
+                                                                                        <span class="num_selector">
+                                                                                                <button type="button" class="btnn" id="child_add2"><i class="fas fa-plus"></i></button>
+                                                                                                <p id="child_status2">1</p>
+                                                                                                <button type="button" class="btnn2" id="child_minus2"><i class="fas fa-minus" style="left: 10px !important;"></i></button>
+                                                                                            </span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="room_property" id="room3">
+                                                                                    <p>اتاق سوم</p>
+                                                                                    <div class="adult_select">
+                                                                                        <p>بزرگسال</p>
+                                                                                        <span class="num_selector">
+                                                                                                <button type="button" class="btnn" id="adult_add3"><i class="fas fa-plus"></i></button>
+                                                                                                <p id="adult_status3">1</p>
+                                                                                                <button type="button" class="btnn2" id="adult_minus3"><i class="fas fa-minus"></i></button>
+                                                                                            </span>
+                                                                                    </div>
+                                                                                    <div class="adult_select">
+                                                                                        <p>کودک</p>
+                                                                                        <span class="num_selector">
+                                                                                                <button type="button" class="btnn" id="child_add3"><i class="fas fa-plus"></i></button>
+                                                                                                <p id="child_status3">1</p>
+                                                                                                <button type="button" class="btnn2" id="child_minus3"><i class="fas fa-minus" style="left: 10px !important;"></i></button>
+                                                                                            </span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="room_property" id="room4">
+                                                                                    <p>اتاق چهارم</p>
+                                                                                    <div class="adult_select">
+                                                                                        <p>بزرگسال</p>
+                                                                                        <span class="num_selector">
+                                                                                                <button type="button" class="btnn" id="adult_add4"><i class="fas fa-plus"></i></button>
+                                                                                                <p id="adult_status4">1</p>
+                                                                                                <button type="button" class="btnn2" id="adult_minus4"><i class="fas fa-minus"></i></button>
+                                                                                            </span>
+                                                                                    </div>
+                                                                                    <div class="adult_select">
+                                                                                        <p>کودک</p>
+                                                                                        <span class="num_selector">
+                                                                                                <button type="button" class="btnn" id="child_add4"><i class="fas fa-plus"></i></button>
+                                                                                                <p id="child_status4">1</p>
+                                                                                                <button type="button" class="btnn2" id="child_minus4"><i class="fas fa-minus" style="left: 10px !important;"></i></button>
+                                                                                            </span>
+                                                                                    </div>
+                                                                                </div>
+                                                                                <div class="room_property" id="room5">
+                                                                                    <p>اتاق بنجم</p>
+                                                                                    <div class="adult_select">
+                                                                                        <p>بزرگسال</p>
+                                                                                        <span class="num_selector">
+                                                                                                <button type="button" class="btnn" id="adult_add5"><i class="fas fa-plus"></i></button>
+                                                                                                <p id="adult_status5">1</p>
+                                                                                                <button type="button" class="btnn2" id="adult_minus5"><i class="fas fa-minus"></i></button>
+                                                                                            </span>
+                                                                                    </div>
+                                                                                    <div class="adult_select">
+                                                                                        <p>کودک</p>
+                                                                                        <span class="num_selector">
+                                                                                                <button type="button" class="btnn" id="child_add5"><i class="fas fa-plus"></i></button>
+                                                                                                <p id="child_status5">1</p>
+                                                                                                <button type="button" class="btnn2" id="child_minus5"><i class="fas fa-minus" style="left: 10px !important;"></i></button>
+                                                                                            </span>
+                                                                                    </div>
+                                                                                </div>
+
+                                                                            </div>
+                                                                            <br>
+
+                                                                            <div class="col-12 button-col">
+                                                                                <div class="fieldBlock buttonBlock hotel_search_to_top">
+                                                                                    <a href="hotel_result.html">
+                                                                                    <button type="button" id="hotel_search" class="Common-Widgets-Button-ButtonDeprecated Common-Widgets-Button-Button size-m searchButton" type="submit" aria-hidden="false" aria-disabled="false">
+                                                                                        <span class="">جستجو</span>
+                                                                                    </button></a>
+                                                                                </div>
+                                                                            </div>
+
+
+                                                                        </form>
+                                                                    </div>
+                                                                    <!--search box elements-->
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- ticket search box -->
+    </div>
+</div>
+<div class="main-content">
+    <h2 style="text-align: center">بسته های ویژه</h2>
+    <div class="owl-carousel" style="direction:ltr;position: relative !important;z-index: 1 !important;">
+        <div class="packages">
+            <div class="img-container">
+                <a href="#">
+                    <a href="#"><div class="blur w3-container w3-center w3-animate-zoom"></div></a>
+                    <img src="img/p3.jpg" alt="a"/>
+                </a>
+            </div>
+            <a href="#"> سفر به ونیز ایتالیا</a>
+            <a href="#">شهر ونیز یکی از شهرهای گردشگرپذیر جهان است و سالانه میلیون‌ها گردشگر به این شهر می‌روند.</a>
+        </div>
+        <div class="packages">
+            <div class="img-container">
+                <a href="#">
+                    <a href="#"><div class="blur w3-container w3-center w3-animate-zoom"></div></a>
+                    <img src="img/p2.jpg" alt="a" />
+                </a>
+            </div>
+            <a href="#">اقامت در آنتالیا</a>
+            <a href="#">این شهر که به عنوان مرکز گردشگری و تفریحی در ترکیه محسوب می‌گردد دارای جاذبه‌های فراوان می‌باشد.</a>
+        </div>
+        <div class="packages">
+            <div class="img-container">
+                <a href="#">
+                    <a href="#"><div class="blur w3-container w3-center w3-animate-zoom"></div></a>
+                    <img src="img/p3.jpg" alt="a" />
+                </a>
+            </div>
+            <a href="#">سفر به سیدنی استرالیا </a>
+            <a href="#">شهری است با جذابیت‌های بیشمار که دویست و هجده سال از زمان تأسیس آن می‌گذرد.</a>
+        </div>
+        <div class="packages">
+            <div class="img-container">
+                <a href="#">
+                    <a href="#"><div class="blur w3-container w3-center w3-animate-zoom"></div></a>
+                    <img src="img/p3.jpg" alt="a"/>
+                </a>
+            </div>
+            <a href="#"> سفر به ونیز ایتالیا</a>
+            <a href="#">شهر ونیز یکی از شهرهای گردشگرپذیر جهان است و سالانه میلیون‌ها گردشگر به این شهر می‌روند.</a>
+        </div>
+        <div class="packages">
+            <div class="img-container">
+                <a href="#">
+                    <a href="#"><div class="blur w3-container w3-center w3-animate-zoom"></div></a>
+                    <img src="img/p2.jpg" alt="a" />
+                </a>
+            </div>
+            <a href="#">اقامت در آنتالیا</a>
+            <a href="#">این شهر که به عنوان مرکز گردشگری و تفریحی در ترکیه محسوب می‌گردد دارای جاذبه‌های فراوان می‌باشد.</a>
+        </div>
+        <div class="packages">
+            <div class="img-container">
+                <a href="#">
+                    <a href="#"><div class="blur w3-container w3-center w3-animate-zoom"></div></a>
+                    <img src="img/p3.jpg" alt="a" />
+                </a>
+            </div>
+            <a href="#">سفر به سیدنی استرالیا </a>
+            <a href="#">شهری است با جذابیت‌های بیشمار که دویست و هجده سال از زمان تأسیس آن می‌گذرد.</a>
+        </div>
+    </div>
+
+    <h2 style="text-align: center">همکاران</h2>
+    <div class="owl-carousel co_workers_carousel" style="direction:ltr;">
+        <div class="co_workers">
+            <img src="img/emarat.png" alt="co"/>
+            <p>هواپیمایی امارات</p>
+        </div>
+        <div class="co_workers">
+            <img src="img/iranair.png" alt="co" />
+            <p>ایران ایر</p>
+        </div>
+        <div class="co_workers">
+            <img src="img/mahan.png" alt="co"/>
+            <p>هواپیمایی ماهان</p>
+        </div>
+        <div class="co_workers">
+            <img src="img/turkish.png" alt="co"/>
+            <p>هواپیمایی ترکیش</p>
+        </div>
+        <div class="co_workers">
+            <img src="img/caspian.png" alt="co"/>
+            <p>هوایمایی کاسپین</p>
+        </div>
+        <div class="co_workers">
+            <img src="img/emarat.png" alt="co"/>
+            <p>هواپیمایی امارات</p>
+        </div>
+        <div class="co_workers">
+            <img src="img/iranair.png" alt="co"/>
+            <p>ایران ایر</p>
+        </div>
+        <div class="co_workers">
+            <img src="img/mahan.png" alt="co" />
+            <p>هواپیمایی ماهان</p>
+        </div>
+        <div class="co_workers">
+            <img src="img/turkish.png" alt="co"/>
+            <p>هواپیمایی ترکیش</p>
+        </div>
+        <div class="co_workers">
+            <img src="img/caspian.png" alt="co"/>
+            <p>هوایمایی کاسپین</p>
+        </div>
+    </div>
+</div>
+
+    </div>
+</div>
+
+<div class="footer">
+    <div class="row">
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 footer_col">
+            <div id="namad">
+                <div class="owl-carousel" id="footer_signs" style="direction:ltr;">
+                    <div class="footer_img">
+                        <img src="img/namad.jpg" alt="e-namad"/>
+                    </div>
+                    <div class="footer_img">
+                        <img src="img/mellat.png" alt="mellat"/>
+                    </div>
+                    <div class="footer_img">
+                        <img src="img/tejarat.jpg" alt="tejarat"/>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright"><p>فلایتیگو مرجع فروش بلیط هواپیما و رزرو هتل در ایران .</p></div>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 footer_col">
+            <h1>مسیر های پر تردد</h1>
+            <a href="#">پرواز تهران - مشهد</a>
+            <a href="#">پرواز مشهد - تهران</a>
+            <a href="#">پرواز تهران - استانبول</a>
+            <a href="#">پرواز تهران - آنتالیا</a>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 footer_col">
+            <div id="footer_logo_box">
+                <img src="img/logo.png" alt="logo" width="100px" />
+            </div>
+            <h1>خدمات</h1>
+            <ul>
+                <li>خدمات بیمه</li>
+                <li>خدمات سفر</li>
+                <li>خدمات تور</li>
+                <li>خدمات هتل</li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer2">
+        <a href="#"><img class="social_link" src="img/facebook.png" alt="facebook" width="30px" /></a>
+        <a href="#"><img class="social_link" src="img/twitter.png" alt="twitter" width="30px" /></a>
+        <a href="#"><img class="social_link" src="img/instagram.png" alt="instagram" width="30px" /></a>
+        <a href="#"><img class="social_link" src="img/telegram.png" alt="telegram" width="30px" /></a>
+        <a href="#"><img class="social_link" src="img/linkedin.png" alt="linkedin" width="30px" /></a>
+    </div>
+</div>
+<button onclick="topFunction()" id="scroll_top" title="رفتن به بالای صفحه"><i class="fas fa-chevron-up"></i></button>
+<script>
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("scroll_top").style.display = "block";
+        } else {
+            document.getElementById("scroll_top").style.display = "none";
+        }
+    }
+
+    function topFunction() {
+        $('html, body').animate({ scrollTop: 0 }, 500);
+    }
+</script>
+<script src="js/main.js"></script>
+<script src="js/main2.js"></script>
+<script src="js/main3.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/js-persian-cal.min.js"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+</body>
+</html>

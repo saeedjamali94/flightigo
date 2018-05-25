@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="theme-color" content="#1e88e5" />
+    <link rel="stylesheet" href="css/style.css" data-type="page"/>
+    <link rel="shortcut icon" href="img/logo.png" type="image/png" sizes="32x32">
+    <link rel="shortcut icon" href="img/logo.png" type="image/png" sizes="16x16">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css">
+    <!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js"></script>
+    <!-- Latest compiled JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.js"></script>
+    <script src="https://unpkg.com/nouislider@10.0.0/distribute/nouislider.min.js"></script>
+    <script src="https://unpkg.com/wnumb@1.1.0"></script>
+    <link rel="stylesheet" href="https://unpkg.com/nouislider@10.0.0/distribute/nouislider.min.css">
+    <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+    <title>فلایتیگو| نتایج جستجوی پرواز</title>
+</head>
+<body>
+<div class="keel-chp en_US">
+    <header class="header flat" id="main_header">
+        <div class="container">
+            <div style="width: 50px;margin: auto;position: relative;top: 53px;z-index: 1">
+                <a href="http://flightigo.com" class="logo pages_logo"><img src="img/logo.png" alt="فلایتیگو" height="60px" /></a>
+            </div>
+            <a href="http://flightigo.com" class="headers_link"><i class="fas fa-home"></i> صفحه اصلی</a>
+            <a href="http://flightigo.com/blog" class="headers_link"><i class="fas fa-book"></i> وبلاگ</a>
+            <a href="/flightigo/contact" class="headers_link"><i class="fas fa-phone"></i> تماس باما</a>
+            <a href="/flightigo/login" class="headers_link left"><i class="fas fa-user-circle"></i> ورود</a>
+            <a href="/flightigo/signup" class="headers_link left"><i class="fas fa-user-circle"></i> ثبت نام</a>
+            <a href="#" class="headers_link left"><i class="fas fa-shopping-cart"></i> سبد خرید</a>
+        </div>
+    </header>
+
+    <div id="mobile-header" class="Common-Frontdoor-Brands-flightigo-flightigoHeader main_head">
+        <div class="keel-container">
+            <div class="keel-grid cfHeaderGrid">
+                <div class="col-logo logoContainer">
+                    <a href="http://flightigo.com" class="logo"><img src="img/logo.png" alt="logo" height="35px" style="float: left" /></a>
+                </div>
+                <div class="col-hamburger" id="header-menu-button" tabindex="0">
+                    <div class="hamburger hamburger-squeeze">
+                        <div class="hamburger-box">
+                            <div class="hamburger-inner"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- mobile nav menu -->
+    <div id="mobile-menu">
+        <div id="mobile-menu-header">
+            <button id="menu-close" type="button"><i class="fas fa-times" style="float: right"></i></button>
+            <a href="http://flightigo.com" style="float: left"><img src="img/logo.png" alt="logo" height="40px" style="margin-top: -9px;margin-left: -32px;" /></a>
+        </div>
+    </div>
+    <!-- mobile nav menu -->
+
+
+
+    <div class="wrap">
+<div id="main_back">
+    <div class="more_filter_div" id="hotel_filter_div">
+        <button type="button" class="close" id="more_filter_close" style="margin-right: -5px;margin-top: 0px !important;">x</button> <br /><br />
+        <div class="header blue" style="height: 35px;font-size: 20px;text-align: center;padding-top: 5px">قیمت</div> <br />
+        <div style="margin: 2em" class="regular-slider" id="hotel-price_filter"></div>
+        <br />
+
+    </div>
+
+    <div class="more_filter_div" id="compare_hotel_div">
+        <button type="button" class="close" id="compare_div_close" style="margin-right: 90% !important;margin-top: 0px !important;">x</button> <br /><br />
+        <div class="compare_box">
+            <table class="tbl" id="flight_compare_tbl">
+                <thead>
+                <tr>
+                    <th>قیمت</th>
+                    <th>ساعت پرواز</th>
+                    <th>ایرلاین</th>
+                    <th>مدل هواپیما</th>
+                    <th>ظرفیت خالی</th>
+                    <th>رزرو انتخاب</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+   
+    <div class="container">
+        <div class="filter_of_search_box">
+            <button type="button" class="more_filters_btn" id="compare_load_btn" style="float: right !important;;border-radius: 0px 20px 20px 0px !important;padding: 10px 5px !important;">مقایسه انتخاب ها</button>
+            <button type="button" class="more_filters_btn" id="hotel_filter_btn" style="float: left">فیلترهای بیشتر</button>
+        </div>
+
+        <div class="hotel_property">
+            <div class="slide" id="hotel_slide">
+                <img class="mySlides" src="img/hotel1.jpg" alt="a"/>
+                <img class="mySlides" src="img/hotel2.jpg" alt="a"/>
+                <img class="mySlides" src="img/hotel3.jpg" alt="a"/>
+                <img class="mySlides" src="img/hotel1.jpg" alt="a"/>
+                <img class="mySlides" src="img/hotel2.jpg" alt="a"/>
+                <img class="mySlides" src="img/hotel3.jpg" alt="a"/>
+                <img class="mySlides" src="img/hotel1.jpg" alt="a"/>
+
+                <button class="prev" onclick="plusDivs(-1)">&#10095;</button>
+                <button class="next" onclick="plusDivs(1)">&#10094;</button>
+            </div>
+
+            <div class="owl-carousel" id="slide_view_pics" style="direction:ltr;position: relative !important;z-index: 1 !important;">
+                <div class="packages slide_view">
+                    <div class="img-container">
+                            <img src="img/hotel1.jpg" alt="a"/>
+                    </div>
+                </div>
+                <div class="packages slide_view">
+                    <div class="img-container">
+                        <img src="img/hotel2.jpg" alt="a"/>
+                    </div>
+                </div>
+                <div class="packages slide_view">
+                    <div class="img-container">
+                        <img src="img/hotel3.jpg" alt="a"/>
+                    </div>
+                </div>
+                <div class="packages slide_view">
+                    <div class="img-container">
+                        <img src="img/hotel1.jpg" alt="a"/>
+                    </div>
+                </div>
+                <div class="packages slide_view">
+                    <div class="img-container">
+                        <img src="img/hotel2.jpg" alt="a"/>
+                    </div>
+                </div>
+                <div class="packages slide_view">
+                    <div class="img-container">
+                        <img src="img/hotel3.jpg" alt="a"/>
+                    </div>
+                </div>
+                <div class="packages slide_view">
+                    <div class="img-container">
+                        <img src="img/hotel1.jpg" alt="a"/>
+                    </div>
+                </div>
+
+            </div>
+
+        </div>
+        <div class="rooms">
+            <div class="row titr">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12">
+                    <p class="title">نوع اتاق</p>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12">
+                    <p class="title">قیمت اتاق</p>
+                </div>
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12">
+                    <p class="title">تعداد اتاق</p>
+                </div>
+            </div>
+            <div class="room_box">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12">
+                        <p><i class="fas fa-bed blue_colored"></i></p>
+                        <p>یک تخته شمالی</p>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 hotel_price">
+                        <p><i class="far fa-money-bill-alt blue_colored"></i></p>
+                        <p> 700000 </p><p>   تومان  </p>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 room_number">
+                        <i class="fas fa-plus blue_colored"></i><i class="fas fa-home blue_colored"></i>
+                        <div class="number_selector">
+                            <div class="num_selector_box">
+                                <button type="button" class="minus_btn" id="room_minus"><i class="fas fa-minus"></i></button>
+                                <p id="room_status">1</p>
+                                <button type="button" class="plus_btn" id="room_add"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center">
+                    <button type="button" class="accordion_btn accordion">امکانات اتاق</button>
+                    <div class="panel">
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+					</div>
+                </div>
+            </div>
+			<div class="room_box">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12">
+                        <p><i class="fas fa-bed blue_colored"></i></p>
+                        <p>یک تخته شمالی</p>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 hotel_price">
+                        <p><i class="far fa-money-bill-alt blue_colored"></i></p>
+                        <p> 700000 </p><p>   تومان  </p>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 room_number">
+                        <i class="fas fa-plus blue_colored"></i><i class="fas fa-home blue_colored"></i>
+                        <div class="number_selector">
+                            <div class="num_selector_box">
+                                <button type="button" class="minus_btn" id="room_minus"><i class="fas fa-minus"></i></button>
+                                <p id="room_status">1</p>
+                                <button type="button" class="plus_btn" id="room_add"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center">
+                    <button type="button" class="accordion_btn accordion">امکانات اتاق</button>
+                    <div class="panel">
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+					</div>
+                </div>
+            </div>
+			<div class="room_box">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12">
+                        <p><i class="fas fa-bed blue_colored"></i></p>
+                        <p>یک تخته شمالی</p>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 hotel_price">
+                        <p><i class="far fa-money-bill-alt blue_colored"></i></p>
+                        <p> 700000 </p><p>   تومان  </p>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 room_number">
+                        <i class="fas fa-plus blue_colored"></i><i class="fas fa-home blue_colored"></i>
+                        <div class="number_selector">
+                            <div class="num_selector_box">
+                                <button type="button" class="minus_btn" id="room_minus"><i class="fas fa-minus"></i></button>
+                                <p id="room_status">1</p>
+                                <button type="button" class="plus_btn" id="room_add"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center">
+                    <button type="button" class="accordion_btn accordion">امکانات اتاق</button>
+                    <div class="panel">
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+					</div>
+                </div>
+            </div>
+			<div class="room_box">
+                <div class="row">
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12">
+                        <p><i class="fas fa-bed blue_colored"></i></p>
+                        <p>یک تخته شمالی</p>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 hotel_price">
+                        <p><i class="far fa-money-bill-alt blue_colored"></i></p>
+                        <p> 700000 </p><p>   تومان  </p>
+                    </div>
+                    <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 room_number">
+                        <i class="fas fa-plus blue_colored"></i><i class="fas fa-home blue_colored"></i>
+                        <div class="number_selector">
+                            <div class="num_selector_box">
+                                <button type="button" class="minus_btn" id="room_minus"><i class="fas fa-minus"></i></button>
+                                <p id="room_status">1</p>
+                                <button type="button" class="plus_btn" id="room_add"><i class="fas fa-plus"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div style="text-align: center">
+                    <button type="button" class="accordion_btn accordion">امکانات اتاق</button>
+                    <div class="panel">
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+						<div class="facility"><p>جکوزی</p></div>
+					</div>
+                </div>
+            </div>
+
+        </div>
+		
+    </div>
+</div>
+</div>
+</div>
+
+<div class="footer">
+    <div class="row">
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 footer_col">
+            <div id="namad">
+                <div class="owl-carousel" id="footer_signs" style="direction:ltr;">
+                    <div class="footer_img">
+                        <img src="img/namad.jpg" alt="e-namad"/>
+                    </div>
+                    <div class="footer_img">
+                        <img src="img/mellat.png" alt="mellat"/>
+                    </div>
+                    <div class="footer_img">
+                        <img src="img/tejarat.jpg" alt="tejarat"/>
+                    </div>
+                </div>
+            </div>
+            <div class="copyright"><p>فلایتیگو مرجع فروش بلیط هواپیما و رزرو هتل در ایران .</p></div>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 footer_col">
+            <h1>مسیر های پر تردد</h1>
+            <a href="#">پرواز تهران - مشهد</a>
+            <a href="#">پرواز مشهد - تهران</a>
+            <a href="#">پرواز تهران - استانبول</a>
+            <a href="#">پرواز تهران - آنتالیا</a>
+        </div>
+        <div class="col-xl-4 col-lg-4 col-md-4 col-sm-12 col-xs-12 col-12 footer_col">
+            <div id="footer_logo_box">
+                <img src="img/logo.png" alt="logo" width="100px" />
+            </div>
+            <h1>خدمات</h1>
+            <ul>
+                <li>خدمات بیمه</li>
+                <li>خدمات سفر</li>
+                <li>خدمات تور</li>
+                <li>خدمات هتل</li>
+            </ul>
+        </div>
+    </div>
+    <div class="footer2">
+        <a href="#"><img class="social_link" src="img/facebook.png" alt="facebook" width="30px" /></a>
+        <a href="#"><img class="social_link" src="img/twitter.png" alt="twitter" width="30px" /></a>
+        <a href="#"><img class="social_link" src="img/instagram.png" alt="instagram" width="30px" /></a>
+        <a href="#"><img class="social_link" src="img/telegram.png" alt="telegram" width="30px" /></a>
+        <a href="#"><img class="social_link" src="img/linkedin.png" alt="linkedin" width="30px" /></a>
+    </div>
+</div>
+<button onclick="topFunction()" id="scroll_top" title="رفتن به بالای صفحه"><i class="fas fa-chevron-up"></i></button>
+<script>
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+        if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+            document.getElementById("scroll_top").style.display = "block";
+        } else {
+            document.getElementById("scroll_top").style.display = "none";
+        }
+    }
+
+    function topFunction() {
+        $('html, body').animate({ scrollTop: 0 }, 500);
+    }
+</script>
+<script>
+    var slideIndex = 1;
+    showDivs(slideIndex);
+
+    function plusDivs(n) {
+        showDivs(slideIndex += n);
+    }
+
+    function showDivs(n) {
+        var i;
+        var x = document.getElementsByClassName("mySlides");
+        if (n > x.length) {slideIndex = 1}
+        if (n < 1) {slideIndex = x.length}
+        for (i = 0; i < x.length; i++) {
+            x[i].style.display = "none";
+        }
+        x[slideIndex-1].style.display = "block";
+    }
+
+
+
+
+   $('.img-container').click(function () {
+       var src= $(this).find('img').attr('src');
+       var x = $('#hotel_slide img.mySlides');
+       for (i = 0; i < x.length; i++) {
+           if (x[i].style.display == "block") {
+               $('#hotel_slide img.mySlides').attr('src', src);
+           }
+       }
+
+
+   });
+
+
+
+
+   var acc = document.getElementsByClassName("accordion");
+   var i;
+
+   for (i = 0; i < acc.length; i++) {
+       acc[i].addEventListener("click", function() {
+           this.classList.toggle("activee");
+           var panel = this.nextElementSibling;
+           if (panel.style.display === "block") {
+               panel.style.display = "none";
+           } else {
+               panel.style.display = "block";
+           }
+       });
+   }
+
+
+    $('#room_add').click(function () {
+        var room = $('#room_status').text();
+        var room_num = parseInt(room)
+        var roomplus = room_num+1;
+        $('#room_status').html(roomplus);
+    });
+    $('#room_minus').click(function () {
+        var room = $('#room_status').text();
+        var room_num = parseInt(room)
+        var roomminus = room_num-1;
+        $('#room_status').html(roomminus);
+
+    });
+
+
+
+
+
+</script>
+<script src="js/main.js"></script>
+<script src="js/main2.js"></script>
+<script src="js/main3.js"></script>
+<script src="js/owl.carousel.min.js"></script>
+<script src="js/js-persian-cal.min.js"></script>
+<script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
+</body>
+</html>

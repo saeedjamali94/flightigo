@@ -53,7 +53,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .header {
     position: relative;
-    background-color: #eaeaea;
+    background: linear-gradient(to right, #7d7de6, #56da56);
     height: 60px;
     width: 100%;
     padding: 10px;
@@ -24130,7 +24130,7 @@ p.header_link {
     float: right;
     padding-left: 30px;
     margin-top: 0px;
-    color: #4c696d !important;
+    color: #fff !important;
     padding: 10px;
     border: solid .5px #0000;
     border-radius: 10px;

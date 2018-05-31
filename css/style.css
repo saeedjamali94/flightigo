@@ -114,7 +114,7 @@ h1, h2, h3, h4, h5, h6 {
     position: relative;
     width: 100%;
     min-height: 150px;
-    background: linear-gradient(to top , #d2d2d2 ,#fff);
+    background: linear-gradient(to right, #bccfd2 ,#fff);
     padding: 0px;
     border-style: solid;
     border-color: #aaa;
@@ -124,7 +124,7 @@ h1, h2, h3, h4, h5, h6 {
     box-shadow: 0px 0px #0000;
     margin-bottom: 40px;
     cursor: pointer;
-    color:#000;
+    color:#555;
 }
 .flight_result:hover {
     box-shadow: 1px 1px 1px 1px #aaa;

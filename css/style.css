@@ -261,6 +261,7 @@ h1, h2, h3, h4, h5, h6 {
     left: -25%;
     width: 50%;
     text-align: center !important;
+	display:none;
 }
 .more_info .more_info_btn {
     position: relative !important;
@@ -24427,6 +24428,7 @@ div.title p.title {
     left: 25px;
     border-radius: 6px !important;
 }
+<<<<<<< HEAD
 div.footer {
 	position:relative;
 	z-index:1;
@@ -24450,3 +24452,5 @@ div#mobile-header {
 	background-color:rgb(0,0,0,.6);
 	z-index:0;
 }
+=======
+>>>>>>> b4bc68a586400f609ed107da2b765e4398ecd984
